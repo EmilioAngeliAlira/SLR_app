@@ -3,6 +3,7 @@ import os
 import pickle
 import pandas as pd
 import base64
+from streamlit_pdf_viewer import pdf_viewer
 
 
 st.set_page_config(page_title="Multipage App", page_icon="👋")
