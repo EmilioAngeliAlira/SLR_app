@@ -42,8 +42,8 @@ logo_img = get_img_as_base64(os.path.join(current_directory, "images", "AHlogo.p
 
 set_background_image(background_image_path)
 
-pdf_list = [el[:-4] for el in os.listdir(dir_PDFs)]
-variables_list = [el[:-7] for el in os.listdir(dir_output)]
+pdf_list =sorted( [el[:-4] for el in os.listdir(dir_PDFs)])
+variables_list = sorted([el[:-7] for el in os.listdir(dir_output)])
 
 # Initialize session state
 if 'variable_index' not in st.session_state or 'pdf_index' not in st.session_state:
