@@ -7,7 +7,7 @@ import pandas as pd
 
 # FUNCTIONS
 def show_pdf(pdf_path):
-    
+    st.write(pdf_path)
     with open(pdf_path, "rb") as f:
         pdf_bytes = f.read()
     encoded_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
