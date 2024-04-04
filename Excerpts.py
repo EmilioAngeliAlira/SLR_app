@@ -31,7 +31,8 @@ def get_img_as_base64(file):
 
 # Directories and indices
 current_directory = os.getcwd()
-
+print(' ss')
+print(current_directory)
 dir_output = os.path.join(current_directory, "Output")
 dir_PDFs = os.path.join(current_directory, "ArticlesPDFs")
 OutputPickle_dir = os.path.join(current_directory, "OutputExcelTable.pickle")
