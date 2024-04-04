@@ -94,7 +94,8 @@ with col1.container(height=500):
             st.markdown("""<br><hr style="border: 2px solid #000000; margin-top: 20px; margin-bottom: 20px"><br>""", unsafe_allow_html=True)
         st.write(f"**Tables & figures:**")
         for image_dir in tables_and_figures:
-            print(image_dir)
+            aux_name = os.path.basename(image_dir)
+            image_dir = os.path.join(current_directory, aux_name)
             st.image(image_dir + ".png")
     if not text_content and not tables_and_figures:
         st.write(f"**No relevant content found**")
