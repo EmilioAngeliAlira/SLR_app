@@ -26,7 +26,7 @@ def set_background_image(image_path):
 
 
 # INDECES:
-current_directory = r"C:\Users\EmilioAngeli\OneDrive - Alira Health\Documents\SLRAutomationFolder\APP_DEPLOYMENT"
+current_directory = os.getcwd()
 
 dir_output = os.path.join(current_directory, "Output")
 dir_PDFs = os.path.join(current_directory, "ArticlesPDFs")
