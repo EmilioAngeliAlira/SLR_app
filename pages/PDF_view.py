@@ -15,9 +15,8 @@ import pandas as pd
 #    st.markdown(html_display, unsafe_allow_html=True)
 
 def show_pdf(pdf_url):
-    pdf_url = "https://drive.google.com/uc?export=view&id=1JrIeuAN5bjPAsjH1kbH-TU2QKtqWiWkb" 
-    st.markdown(f'<iframe src="{pdf_url}" width="700" height="800" type="application/pdf"></iframe>', unsafe_allow_html=True)
-    
+    show_pdf(pdf_path)
+ 
 def get_img_as_base64(file):
     with open(file, "rb") as f:
         data = f.read()
@@ -80,7 +79,7 @@ st.sidebar.markdown(f"""<style>.sidebar .sidebar-content {{  display: flex;  fle
 # Add content to the main area
 col1, col2 = st.columns([3, 1], gap="small")  
 
-with col1:
+with col1.container(height=500):
     show_pdf(pdf_path)
 
 with col2:
