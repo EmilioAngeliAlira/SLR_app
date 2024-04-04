@@ -7,6 +7,7 @@ import base64
 
 st.set_page_config(page_title="Multipage App", page_icon="👋")
 
+print(st.__version__)
 
 
 # FUNCTIONS:
