@@ -3,6 +3,7 @@ import base64
 import os
 import pickle
 import pandas as pd
+from streamlit_pdf_viewer import pdf_viewer
 
 
 # FUNCTIONS
@@ -15,7 +16,7 @@ import pandas as pd
 #    st.markdown(html_display, unsafe_allow_html=True)
 
 def show_pdf(pdf_url):
-    show_pdf(pdf_path)
+    pdf_viewer(input=pdf_path, width = 500)
  
 def get_img_as_base64(file):
     with open(file, "rb") as f:
