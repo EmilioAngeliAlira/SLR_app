@@ -97,7 +97,6 @@ with col1.container(height=500):
         st.write(f"**Tables & figures:**")
         for image_dir in tables_and_figures:
             aux_name = image_dir.split('\\')[-1]
-            st.write(st.__version__)
             image_dir = os.path.join(current_directory, "ExtractedTablesAndFigures", aux_name)
             st.image(image_dir + ".png")
     if not text_content and not tables_and_figures:
