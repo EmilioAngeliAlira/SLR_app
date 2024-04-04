@@ -30,10 +30,11 @@ def get_img_as_base64(file):
 
 
 # Directories and indices
-dir_output = r"C:\Users\EmilioAngeli\OneDrive - Alira Health\Documents\SLRAutomationFolder\Materials\PickleFiles\Output"
-dir_PDFs = r"C:\Users\EmilioAngeli\OneDrive - Alira Health\Documents\SLRAutomationFolder\Materials\ArticlesPDFs"
-OutputPickle_dir = r"C:\Users\EmilioAngeli\OneDrive - Alira Health\Documents\SLRAutomationFolder\multipage_app\OutputExcelTable.pickle"
-current_directory = r"C:\Users\EmilioAngeli\OneDrive - Alira Health\Documents\SLRAutomationFolder\multipage_app"
+current_directory = r"C:\Users\EmilioAngeli\OneDrive - Alira Health\Documents\SLRAutomationFolder\APP_DEPLOYMENT"
+
+dir_output = os.path.join(current_directory, "Output")
+dir_PDFs = os.path.join(current_directory, "ArticlesPDFs")
+OutputPickle_dir = os.path.join(current_directory, "OutputExcelTable.pickle")
 background_image_path = os.path.join(current_directory, "images", "background.jpg")
 logo_img = get_img_as_base64(os.path.join(current_directory, "images", "AHlogo.png"))
 
@@ -93,6 +94,7 @@ with col1.container(height=500):
             st.markdown("""<br><hr style="border: 2px solid #000000; margin-top: 20px; margin-bottom: 20px"><br>""", unsafe_allow_html=True)
         st.write(f"**Tables & figures:**")
         for image_dir in tables_and_figures:
+            print(image_dir)
             st.image(image_dir + ".png")
     if not text_content and not tables_and_figures:
         st.write(f"**No relevant content found**")
@@ -141,4 +143,4 @@ if export:
     df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
     with open(OutputPickle_dir, 'wb') as f:
         pickle.dump(df_out, f)
-    df_out.to_excel(r"C:\Users\EmilioAngeli\OneDrive - Alira Health\Documents\SLRAutomationFolder\multipage_app\OutputTable.xlsx")
+    df_out.to_excel(OutputPickle_dir)
