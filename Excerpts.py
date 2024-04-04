@@ -3,7 +3,6 @@ import os
 import pickle
 import pandas as pd
 import base64
-from pathlib import Path
 
 
 st.set_page_config(page_title="Multipage App", page_icon="👋")
@@ -97,7 +96,7 @@ with col1.container(height=500):
             st.markdown("""<br><hr style="border: 2px solid #000000; margin-top: 20px; margin-bottom: 20px"><br>""", unsafe_allow_html=True)
         st.write(f"**Tables & figures:**")
         for image_dir in tables_and_figures:
-            aux_name = Path(image_dir).name
+            aux_name = image_dir.split('\')[-1]
             st.write(aux_name)
             image_dir = os.path.join(current_directory, "ExtractedTablesAndFigures", aux_name)
             st.image(image_dir + ".png")
