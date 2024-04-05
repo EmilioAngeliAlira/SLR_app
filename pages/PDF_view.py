@@ -57,12 +57,20 @@ pdf_path = os.path.join (dir_PDFs,  str(pdf) + ".pdf")
 # SIDEBAR:
 chosen_variable = st.sidebar.selectbox("Current variable:", variables_list, index = st.session_state.variable_index)
 chosen_article = st.sidebar.selectbox("Current article:", pdf_list, index = st.session_state.pdf_index)
-data = to_excel(st.session_state.df_out)
 st.sidebar.write("")
 st.sidebar.write("")  
 st.sidebar.write("")
-st.sidebar.download_button(label="Download Excel",data=data, file_name="exported_dataframe.xlsx", mime="application/vnd.ms-excel")
-st.sidebar.write("")  
+buffer = io.BytesIO()
+with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+    # Write each dataframe to a different worksheet.
+    st.session_state.df_out.to_excel(writer, sheet_name='Sheet1')
+    # Close the Pandas Excel writer and output the Excel file to the buffer
+    writer._save()
+    st.sidebar.download_button(
+        label="Download ",
+        data=buffer,
+        file_name="Table.xlsx",
+        mime="application/vnd.ms-excel")st.sidebar.write("")  
 st.sidebar.write("")
 st.sidebar.write("")  
 # Reduce the space between the horizontal line and the logo
