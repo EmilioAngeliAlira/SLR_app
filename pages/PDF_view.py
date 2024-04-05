@@ -15,9 +15,7 @@ from streamlit_pdf_viewer import pdf_viewer
 #    html_display = F"""<embed src="data:application/pdf;base64,{encoded_pdf}" width="400" height="500" type="application/pdf"> """
 #    st.markdown(html_display, unsafe_allow_html=True)
 
-def show_pdf(pdf_url):
-    pdf_viewer(input=pdf_path, width = 500)
-    return 
+
     
 def get_img_as_base64(file):
     with open(file, "rb") as f:
@@ -82,7 +80,7 @@ st.sidebar.markdown(f"""<style>.sidebar .sidebar-content {{  display: flex;  fle
 col1, col2 = st.columns([3, 1], gap="small")  
 
 with col1.container(height=500):
-    show_pdf(pdf_path)
+    pdf_viewer(input=pdf_path, width = 500)
 
 with col2:
     value = df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] if type(df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index]) == str else ' ' 
