@@ -4,8 +4,7 @@ import os
 import pickle
 import pandas as pd
 from streamlit_pdf_viewer import pdf_viewer
-from io import BytesIO
-
+import io
 
 
 
