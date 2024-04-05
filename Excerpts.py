@@ -147,3 +147,4 @@ if export:
     with open(OutputPickle_dir, 'wb') as f:
         pickle.dump(df_out, f)
     df_out.to_excel(OutputPickle_dir)
+    st.rerun()
