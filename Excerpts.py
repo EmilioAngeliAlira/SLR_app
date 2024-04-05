@@ -31,13 +31,9 @@ def load_tables(directory_pickle_files, variable):
 def get_img_as_base64(file):
     with open(file, "rb") as f:
         return base64.b64encode(f.read()).decode()
-def to_excel(df):
-    output = BytesIO()
-    with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        df.to_excel(writer, index=True)
-        writer._save()
-    processed_data = output.getvalue()
-    return processed_data
+
+
+buffer = io.BytesIO()
 
 
 # Directories and indices
@@ -69,11 +65,28 @@ pdf = pdf_list[st.session_state.pdf_index]
 # SIDEBAR:
 chosen_variable = st.sidebar.selectbox("Current variable:", variables_list, index = st.session_state.variable_index)
 chosen_article = st.sidebar.selectbox("Current article:", pdf_list, index = st.session_state.pdf_index)
-data = to_excel(st.session_state.df_out)
 st.sidebar.write("")
 st.sidebar.write("")  
 st.sidebar.write("")
-st.sidebar.download_button(label="Download Excel",data=data, file_name="exported_dataframe.xlsx", mime="application/vnd.ms-excel")
+
+
+
+buffer = io.BytesIO()
+with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+    # Write each dataframe to a different worksheet.
+    st.session_state.df_out.to_excel(writer, sheet_name='Sheet1')
+   
+
+    # Close the Pandas Excel writer and output the Excel file to the buffer
+    writer.save()
+
+    st.download_button(
+        label="Download ",
+        data=buffer,
+        file_name="pandas_multiple.xlsx",
+        mime="application/vnd.ms-excel"
+    )
+
 st.sidebar.write("")  
 st.sidebar.write("")
 st.sidebar.write("")  
