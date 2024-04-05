@@ -6,17 +6,8 @@ import pandas as pd
 from streamlit_pdf_viewer import pdf_viewer
 
 
-# FUNCTIONS
-#def show_pdf(pdf_path):
-#    st.write(pdf_path)
-#    with open(pdf_path, "rb") as f:
-#        pdf_bytes = f.read()
-#    encoded_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
-#    html_display = F"""<embed src="data:application/pdf;base64,{encoded_pdf}" width="400" height="500" type="application/pdf"> """
-#    st.markdown(html_display, unsafe_allow_html=True)
 
 
-    
 def get_img_as_base64(file):
     with open(file, "rb") as f:
         data = f.read()
@@ -28,20 +19,21 @@ def set_background_image(image_path):
 
 
 # INDECES:
-current_directory = os.getcwd()
-
+current_directory  = os.getcwd()
 dir_output = os.path.join(current_directory, "Output")
 dir_PDFs = os.path.join(current_directory, "ArticlesPDFs")
 Output_dir = os.path.join(current_directory, "OutputExcelTable.xlsx")
 background_image_path = os.path.join(current_directory, "images", "background.jpg")
 logo_img = get_img_as_base64(os.path.join(current_directory, "images", "AHlogo.png"))
-set_background_image(background_image_path)
 
+set_background_image(background_image_path)
 
 pdf_list =sorted( [el[:-4] for el in os.listdir(dir_PDFs)])
 variables_list = sorted([el[:-7] for el in os.listdir(dir_output)])
 
 
+
+# Initialize session state
 if 'variable_index' not in st.session_state and 'pdf_index' not in st.session_state:
     st.session_state.variable_index = 0
     st.session_state.pdf_index = 0
@@ -50,14 +42,7 @@ pdf = pdf_list[st.session_state.pdf_index]
 pdf_path = os.path.join (dir_PDFs,  str(pdf) + ".pdf")
 
 
-# read the output df, create it if it does not exist yet
-try:
-    with open(OutputPickle_dir, 'rb') as f:
-      df_out = pickle.load(f)
-except FileNotFoundError:
-    df_out = pd.DataFrame(index=pdf_list, columns = variables_list)
-    with open(OutputPickle_dir, 'wb') as f:
-        pickle.dump(df_out, f)
+
 
 
 
@@ -82,8 +67,11 @@ col1, col2 = st.columns([3, 1], gap="small")
 with col1.container(height=500):
     pdf_viewer(input=pdf_path, width = 500)
 
+
+
+
 with col2:
-    value = df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] if type(df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index]) == str else ' ' 
+    value = st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] if type(st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index]) == str else ' ' 
     key = (st.session_state.pdf_index, st.session_state.variable_index)
     answer = st.text_area(label = "Your answer", key = key, value = value, height = 250)
     next_article = st.button("Next article", use_container_width=True)
@@ -91,38 +79,27 @@ with col2:
 
 
 
+
 if answer:
-    df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
-    with open(OutputPickle_dir, 'wb') as f:
-        pickle.dump(df_out, f)
+    st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
 if next_article and st.session_state.pdf_index < len(pdf_list)-1:
-    df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
-    with open(OutputPickle_dir, 'wb') as f:
-        pickle.dump(df_out, f)
+    st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
     st.session_state.pdf_index += 1
     st.rerun()
 if next_variable and st.session_state.variable_index < len(variables_list)-1:
-    df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
-    with open(OutputPickle_dir, 'wb') as f:
-        pickle.dump(df_out, f)
+    st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
     st.session_state.variable_index += 1
     st.rerun()
 if chosen_variable != variables_list[st.session_state.variable_index]:
-    df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
-    with open(OutputPickle_dir, 'wb') as f:
-        pickle.dump(df_out, f)
+    st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
     aux = [i for i in range(len(variables_list)) if variables_list[i] == chosen_variable][0]
     st.session_state.variable_index = aux
     st.rerun()
 if chosen_article != pdf_list[st.session_state.pdf_index]:
-    df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
-    with open(OutputPickle_dir, 'wb') as f:
-        pickle.dump(df_out, f)
+    st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
     aux = [i for i in range(len(pdf_list)) if pdf_list[i] == chosen_article][0]
     st.session_state.pdf_index = aux
     st.rerun()
 if export:
-    df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
-    with open(OutputPickle_dir, 'wb') as f:
-        pickle.dump(df_out, f)
-    df_out.to_excel(Output_dir)
+    st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
+    st.session_state.df_out.to_excel(Output_dir)
