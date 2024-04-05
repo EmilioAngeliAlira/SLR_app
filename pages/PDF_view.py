@@ -70,7 +70,8 @@ with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
         label="Download ",
         data=buffer,
         file_name="Table.xlsx",
-        mime="application/vnd.ms-excel")st.sidebar.write("")  
+        mime="application/vnd.ms-excel")
+st.sidebar.write("")  
 st.sidebar.write("")
 st.sidebar.write("")  
 # Reduce the space between the horizontal line and the logo
