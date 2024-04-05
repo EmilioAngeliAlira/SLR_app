@@ -36,7 +36,7 @@ print(' ss')
 print(current_directory)
 dir_output = os.path.join(current_directory, "Output")
 dir_PDFs = os.path.join(current_directory, "ArticlesPDFs")
-OutputPickle_dir = os.path.join(current_directory, "OutputExcelTable.pickle")
+Output_dir = os.path.join(current_directory, "OutputExcelTable.xlsx")
 background_image_path = os.path.join(current_directory, "images", "background.jpg")
 logo_img = get_img_as_base64(os.path.join(current_directory, "images", "AHlogo.png"))
 
@@ -146,5 +146,5 @@ if export:
     df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
     with open(OutputPickle_dir, 'wb') as f:
         pickle.dump(df_out, f)
-    df_out.to_excel(OutputPickle_dir)
+    df_out.to_excel(Output_dir)
     st.rerun()
