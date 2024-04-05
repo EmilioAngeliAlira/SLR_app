@@ -31,7 +31,13 @@ def load_tables(directory_pickle_files, variable):
 def get_img_as_base64(file):
     with open(file, "rb") as f:
         return base64.b64encode(f.read()).decode()
-
+def to_excel(df):
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=True)
+        writer._save()
+    processed_data = output.getvalue()
+    return processed_data
 
 
 # Directories and indices
@@ -63,15 +69,21 @@ pdf = pdf_list[st.session_state.pdf_index]
 # SIDEBAR:
 chosen_variable = st.sidebar.selectbox("Current variable:", variables_list, index = st.session_state.variable_index)
 chosen_article = st.sidebar.selectbox("Current article:", pdf_list, index = st.session_state.pdf_index)
-st.sidebar.write("")  
-st.sidebar.write("")
-export = st.sidebar.button("Export Excel")
-st.sidebar.write("")  
+data = to_excel(st.session_state.df_out)
 st.sidebar.write("")
 st.sidebar.write("")  
 st.sidebar.write("")
+st.sidebar.download_button(label="Download Excel",data=data, file_name="exported_dataframe.xlsx", mime="application/vnd.ms-excel")
+st.sidebar.write("")  
+st.sidebar.write("")
+st.sidebar.write("")  
 # Reduce the space between the horizontal line and the logo
 st.sidebar.markdown(f"""<style>.sidebar .sidebar-content {{  display: flex;  flex-direction: column;    justify-content: space-between;  /* This ensures the image sticks to the bottom */ }}.img-container {{  display: flex;  justify-content: center;  /* Center the image horizontally */   align-items: end;  /* Align the image to the bottom */    margin-top: 10px;  /* Decrease top margin to push the image closer to the line */}}.img-container img {{ max-width: 40%;  /* Keep the image smaller */ height: auto;  /* Maintain aspect ratio */   margin-bottom: 20px;  /* Adjust the margin as needed */ }} </style><hr>  <!-- Horizontal line --> <div class="img-container"><img src="data:image/png;base64,{logo_img}" alt="Logo"></div>""", unsafe_allow_html=True)
+
+
+
+
+
 
 
 
@@ -121,23 +133,17 @@ with col2:
 if answer:
     st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
 if next_article and st.session_state.pdf_index < len(pdf_list)-1:
-    st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
     st.session_state.pdf_index += 1
     st.rerun()
 if next_variable and st.session_state.variable_index < len(variables_list)-1:
-    st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
     st.session_state.variable_index += 1
     st.rerun()
 if chosen_variable != variables_list[st.session_state.variable_index]:
-    st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
     aux = [i for i in range(len(variables_list)) if variables_list[i] == chosen_variable][0]
     st.session_state.variable_index = aux
     st.rerun()
 if chosen_article != pdf_list[st.session_state.pdf_index]:
-    st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
     aux = [i for i in range(len(pdf_list)) if pdf_list[i] == chosen_article][0]
     st.session_state.pdf_index = aux
     st.rerun()
-if export:
-    st.session_state.df_out.iloc[st.session_state.pdf_index, st.session_state.variable_index] = answer
-    st.session_state.df_out.to_excel(Output_dir)
+
