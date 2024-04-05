@@ -79,11 +79,10 @@ with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
 
     # Close the Pandas Excel writer and output the Excel file to the buffer
     writer._save()
-
-    st.download_button(
+    st.sidebar.download_button(
         label="Download ",
         data=buffer,
-        file_name="pandas_multiple.xlsx",
+        file_name="Table.xlsx",
         mime="application/vnd.ms-excel"
     )
 
