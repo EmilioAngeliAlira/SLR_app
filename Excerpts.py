@@ -33,7 +33,6 @@ def get_img_as_base64(file):
         return base64.b64encode(f.read()).decode()
 
 
-buffer = io.BytesIO()
 
 
 # Directories and indices
@@ -68,24 +67,17 @@ chosen_article = st.sidebar.selectbox("Current article:", pdf_list, index = st.s
 st.sidebar.write("")
 st.sidebar.write("")  
 st.sidebar.write("")
-
-
-
 buffer = io.BytesIO()
 with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
     # Write each dataframe to a different worksheet.
     st.session_state.df_out.to_excel(writer, sheet_name='Sheet1')
-   
-
     # Close the Pandas Excel writer and output the Excel file to the buffer
     writer._save()
     st.sidebar.download_button(
         label="Download ",
         data=buffer,
         file_name="Table.xlsx",
-        mime="application/vnd.ms-excel"
-    )
-
+        mime="application/vnd.ms-excel")
 st.sidebar.write("")  
 st.sidebar.write("")
 st.sidebar.write("")  
