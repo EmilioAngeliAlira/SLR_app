@@ -78,7 +78,7 @@ with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
    
 
     # Close the Pandas Excel writer and output the Excel file to the buffer
-    writer.save()
+    writer._save()
 
     st.download_button(
         label="Download ",
