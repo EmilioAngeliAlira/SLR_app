@@ -25,6 +25,18 @@ def to_excel(df):
     return processed_data
 
 
+def show_pdf(pdf_path):
+    try:
+        with open(pdf_path, "rb") as f:
+            pdf_bytes = f.read()
+        encoded_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
+        html_display = F"""<embed src="data:application/pdf;base64,{encoded_pdf}" width="400" height="500" type="application/pdf"> """
+        st.markdown(html_display, unsafe_allow_html=True)
+    except FileNotFoundError:
+        st.error("PDF not found. Please check the file path.")
+
+
+
 # INDECES:
 current_directory  = os.getcwd()
 dir_output = os.path.join(current_directory, "Output")
@@ -84,8 +96,8 @@ st.sidebar.markdown(f"""<style>.sidebar .sidebar-content {{  display: flex;  fle
 col1, col2 = st.columns([3, 1], gap="small")  
 
 with col1.container(height=500):
-    pdf_viewer(input=pdf_path, width = 500)
-
+    #pdf_viewer(input=pdf_path, width = 500)
+    show_pdf(pdf_path)
 
 
 
