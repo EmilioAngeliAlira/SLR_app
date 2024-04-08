@@ -29,7 +29,9 @@ def show_pdf(pdf_path):
     
     pdf_path = "https://arxiv.org/pdf/2404.03682.pdf"
     # Display the PDF
-    st.markdown(f'<iframe src="{pdf_path}" width="700" height="500" type="application/pdf"></iframe>', unsafe_allow_html=True)
+
+    pdf_viewer_url = f"https://docs.google.com/gview?embedded=true&url={pdf_path}"
+    st.markdown(f'<iframe src="{pdf_viewer_url}" width="700" height="500"></iframe>', unsafe_allow_html=True)
 
 
 
