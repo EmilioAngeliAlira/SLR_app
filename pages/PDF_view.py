@@ -26,14 +26,10 @@ def to_excel(df):
 
 
 def show_pdf(pdf_path):
-    #try:
-    with open(pdf_path, "rb") as f:
-        pdf_bytes = f.read()
-    encoded_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
-    html_display = F"""<embed src="data:application/pdf;base64,{encoded_pdf}" width="400" height="500" type="application/pdf"> """
-    st.markdown(html_display, unsafe_allow_html=True)
-    #except FileNotFoundError:
-    #    st.error("PDF not found. Please check the file path.")
+    
+    pdf_path = "https://arxiv.org/pdf/2404.03682.pdf"
+    # Display the PDF
+    st.markdown(f'<iframe src="{pdf_path}" width="700" height="500" type="application/pdf"></iframe>', unsafe_allow_html=True)
 
 
 
