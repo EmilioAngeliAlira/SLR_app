@@ -40,7 +40,7 @@ current_directory  = os.getcwd()
 dir_output = os.path.join(current_directory, "Output")
 dir_PDFs = os.path.join(current_directory, "ArticlesPDFs")
 Output_dir = os.path.join(current_directory, "OutputExcelTable.xlsx")
-background_image_path = os.path.join(current_directory, "images", "background.jpg")
+background_image_path = os.path.join(current_directory, "images", "background.png")
 logo_img = get_img_as_base64(os.path.join(current_directory, "images", "AHlogo.png"))
 
 set_background_image(background_image_path)
