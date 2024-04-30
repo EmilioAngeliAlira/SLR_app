@@ -106,7 +106,7 @@ with col1.container(height=500):
     i = 0
     for el in text_content:
         i += 1
-        st.write(f"**Excerpt from '{el}':**")
+        st.write(f"**Extract from '{el}':**")
         st.write(text_content[el])
         if i < len(text_content):
             st.markdown("<hr>", unsafe_allow_html=True)
