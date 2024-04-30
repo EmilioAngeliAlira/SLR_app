@@ -25,13 +25,21 @@ def to_excel(df):
     return processed_data
 
 
+#def show_pdf(pdf_path):
+#    pdf_path = "https://arxiv.org/pdf/2404.03682.pdf"
+#    # Display the PDF
+#    pdf_viewer_url = f"https://docs.google.com/gview?embedded=true&url={pdf_path}"
+#   st.markdown(f'<iframe src="{pdf_viewer_url}" width="500" height="500"></iframe>', unsafe_allow_html=True)
+
 def show_pdf(pdf_path):
-    pdf_path = "https://arxiv.org/pdf/2404.03682.pdf"
-    # Display the PDF
-    pdf_viewer_url = f"https://docs.google.com/gview?embedded=true&url={pdf_path}"
-    st.markdown(f'<iframe src="{pdf_viewer_url}" width="500" height="500"></iframe>', unsafe_allow_html=True)
-
-
+    try:
+        with open(pdf_path, "rb") as f:
+            pdf_bytes = f.read()
+        encoded_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
+        html_display = F'<iframe src="data:application/pdf;base64,{encoded_pdf}" width="400" height="500" type="application/pdf"></iframe>'
+        st.markdown(html_display, unsafe_allow_html=True)
+    except FileNotFoundError:
+        st.error("PDF not found. Please check the file path.")
 
 
 # INDECES:
