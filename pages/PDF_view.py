@@ -100,8 +100,7 @@ st.sidebar.markdown(f"""<style>.sidebar .sidebar-content {{  display: flex;  fle
 # Add content to the main area
 col1, col2 = st.columns([3, 1], gap="small")  
 
-with col1.container(height=500):
-    #pdf_viewer(input=pdf_path, width = 500)
+with col1:
     show_pdf(pdf_path)
 
 
